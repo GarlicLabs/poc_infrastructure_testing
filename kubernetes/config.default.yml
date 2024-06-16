@@ -1,0 +1,21 @@
+kubernetes_cluster:
+  - cluster: default
+    kubeconfig: /home/user/.kube/config  
+    number_of_nodes: 3
+    pods:
+      - name_pattern: cilium
+        namespace: kube-system
+        required: 12
+      - name_pattern: coredns
+        namespace: kube-system
+        required: 9
+  - cluster: observability
+    kubeconfig: /home/user/.kube/observability 
+    number_of_nodes: 1
+    pods:
+      - name_pattern: prometheus-kube
+        namespace: observability
+        required: 1
+      - name_pattern: kube-prometheus
+        namespace: observability
+        required: 3

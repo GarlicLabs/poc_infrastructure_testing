@@ -1,0 +1,5 @@
+HOST: 127.0.0.1
+PORT: 22
+USERNAME: admin
+KEYFILE: /home/user/.ssh/id_ed25519
+KEY_PASSWORD: XXX

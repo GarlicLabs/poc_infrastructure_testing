@@ -1,0 +1,6 @@
+GRAFANA_NAMESPACE: default
+GRAFANA_SERVICE_TYPE: ClusterIP
+GRAFANA_USER: # Leave empty (but in here) if you want to use the kubernetes secret
+GRAFANA_PASSWORD: # Leave empty (but in here) if you want to use the kubernetes secret
+GRAFANA_DATA_SOURCE: prometheus
+TEST_QUERY: irate(node_network_receive_bytes_total{instance="example.com:9100",job="node_exporter"}[$__rate_interval])*8
