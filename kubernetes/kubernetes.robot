@@ -1,5 +1,5 @@
 *** Settings ***
-Library           KubeLibrary          
+Library           KubeLibrary
 Library           Collections
 Variables         config.yml
 
