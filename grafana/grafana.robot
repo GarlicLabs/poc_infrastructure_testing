@@ -1,7 +1,7 @@
-# Very gratefully inspired/stolen from devopsspiral. See: https://github.com/devopsspiral/KubeLibrary/blob/master/testcases/grafana/demo-UI-test.robot
+# Very gratefully inspired from devopsspiral. See: https://github.com/devopsspiral/KubeLibrary/blob/master/testcases/grafana/demo-UI-test.robot
 # Thank you!
 *** Settings ***
-Library          KubeLibrary          
+Library          KubeLibrary
 Library          Browser
 Library          Collections
 Library          RequestsLibrary
@@ -17,16 +17,14 @@ Check Grafana Installation
     Grafana Pods Are Running
     Check Grafana Service
     Check Grafana Secrets
-    Check Grafana Serviceaccounts    
+    Check Grafana Serviceaccounts
 
 Get Grafana Secrets and URL
     Get URL From Ingress
     Read Grafana Secrets
 
-Successful Login To Grafana
-    Login To Grafana
-
 Check Data In Grafana
+    Set Browser Timeout    1m 30 seconds
     Login To Grafana
     Check Data Source Metrics Are Available
 
@@ -46,7 +44,7 @@ Check Replica Status
 Grafana Pods Are Running
     Wait Until Keyword Succeeds    1min    5sec   Check grafana pod status
 
-Check Grafana pod status 
+Check Grafana pod status
     @{namespace_pods}=    List Namespaced Pod By Pattern    grafana    ${grafana_namespace}
     Length Should Be  ${namespace_pods}  1
     FOR    ${pod}    IN    @{namespace_pods}
@@ -92,21 +90,16 @@ Login To Grafana
     Wait For Load State
     Fill Text    //input[@name='user']      ${GRAFANA_USER}
     Fill Text    //input[@name='password']  ${GRAFANA_PASSWORD}
-    Click        .css-8csoim-button
+    Click        text=Log in
     Wait For Load State
     Get Text     //h1  matches  Welcome to Grafana
 
 Check Data Source Metrics Are Available
-    Click    .css-w7mcn5
-    Wait For Load State
-    Click    text=Explore
-    Click    .ds-picker > div:nth-child(3) > div:nth-child(1) > div:nth-child(2)
-    Click    text=${GRAFANA_DATA_SOURCE}
-    Click    text=Code
-    Wait For Load State
+    New Page     https://${URL}/explore
+    Click    id=option-code-radiogroup-13
     Click    .view-line
     Keyboard Input    insertText    ${TEST_QUERY}
     Sleep    1
-    Click    text=Run query
+    Click    //*[@id="pageContent"]/div[3]/div/div/div[1]/div/div[1]/div/div[1]/nav/div[2]/div[5]/div/button
     Wait For Load State
-    Get Text    text=Result series:    >    0 
+    Get Text    text=Result series:    >    0
